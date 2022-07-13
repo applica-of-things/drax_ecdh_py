@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>crypto &mdash; Drax ECDH Python 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> Drax ECDH Python
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Drax ECDH Python</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Drax ECDH Python</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">Module code</a> &raquo;</li>
+      <li>crypto</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for crypto</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># load .so Unix crypto C-library</span>
+<span class="n">libname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;libs/unix/libcrypto.so&quot;</span>
+<span class="n">crypto_lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+
+<div class="viewcode-block" id="crypto_privateKeySize"><a class="viewcode-back" href="../crypto.html#crypto.crypto_privateKeySize">[docs]</a><span class="k">def</span> <span class="nf">crypto_privateKeySize</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Get the ECDH private key size from crypto C-library</span>
+
+<span class="sd">  :return: ECDH private key size [bytes]</span>
+<span class="sd">  :rtype: int</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_privateKeySize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="crypto_publicKeySize"><a class="viewcode-back" href="../crypto.html#crypto.crypto_publicKeySize">[docs]</a><span class="k">def</span> <span class="nf">crypto_publicKeySize</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Get the ECDH public key size from crypto C-library</span>
+
+<span class="sd">  :return: ECDH public key size [bytes]</span>
+<span class="sd">  :rtype: int</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_publicKeySize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="crypto_aesChunkSize"><a class="viewcode-back" href="../crypto.html#crypto.crypto_aesChunkSize">[docs]</a><span class="k">def</span> <span class="nf">crypto_aesChunkSize</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Get the AES chunk size used in crypto C-library</span>
+
+<span class="sd">  :return: AES chunk size [bytes]</span>
+<span class="sd">  :rtype: int</span>
+<span class="sd">  &quot;&quot;&quot;</span>  
+  <span class="k">return</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_aesChunkSize</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="crypto_pkcs7CalculatePaddedSize"><a class="viewcode-back" href="../crypto.html#crypto.crypto_pkcs7CalculatePaddedSize">[docs]</a><span class="k">def</span> <span class="nf">crypto_pkcs7CalculatePaddedSize</span><span class="p">(</span><span class="n">data_size</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes output size after PKCS7 padding (RFC2315) in order to respect AES standard </span>
+<span class="sd">  chunk size (16 bytes).</span>
+
+<span class="sd">  :param data_size: Data size for PKCS7 padding</span>
+<span class="sd">  :type data_size: int</span>
+<span class="sd">  :return: Length of padded data</span>
+<span class="sd">  :rtype: int</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> <span class="c1"># sample array to call the C function</span>
+  <span class="n">UIntegerArray3</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span>
+  <span class="n">arr_c</span> <span class="o">=</span> <span class="n">UIntegerArray3</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_pkcs7CalculatePaddedSize</span><span class="p">(</span><span class="n">arr_c</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="crypto_pkcs7CalculateUnpaddedSize"><a class="viewcode-back" href="../crypto.html#crypto.crypto_pkcs7CalculateUnpaddedSize">[docs]</a><span class="k">def</span> <span class="nf">crypto_pkcs7CalculateUnpaddedSize</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes unpadded size of an array with PKCS7 padding (RFC2315) in order to respect AES standard </span>
+<span class="sd">  chunk size (16 bytes).</span>
+
+<span class="sd">  :param data: Numpy padded array of uint8</span>
+<span class="sd">  :type data: Numpy array of uint8</span>
+<span class="sd">  :return: Length of unpadded data</span>
+<span class="sd">  :rtype: int</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">padding</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+  <span class="k">if</span> <span class="n">padding</span> <span class="o">&gt;</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_aesChunkSize</span><span class="p">()</span> <span class="ow">or</span> <span class="n">padding</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span> 
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  
+  <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">padding</span></div>
+
+<div class="viewcode-block" id="crypto_pkcs7pad"><a class="viewcode-back" href="../crypto.html#crypto.crypto_pkcs7pad">[docs]</a><span class="k">def</span> <span class="nf">crypto_pkcs7pad</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Performs padding from input data in order to respect AES standard </span>
+<span class="sd">  chunk size (16 bytes) according to PKCS7 padding from RFC2315.</span>
+<span class="sd">  Note: this implemention is not allined with C one; mind that C function takes</span>
+<span class="sd">  a C-like string as input with the last character that is &#39;/0&#39;, for this reason</span>
+<span class="sd">  the padding result is different comparing the two languages.</span>
+
+<span class="sd">  :param data: input Numpy array</span>
+<span class="sd">  :type data: Numpy array of uint8</span>
+<span class="sd">  :return: padded data as Numpy array</span>
+<span class="sd">  :rtype: uint8 Numpy array</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">padded_size</span> <span class="o">=</span> <span class="n">crypto_pkcs7CalculatePaddedSize</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+  <span class="n">padding</span> <span class="o">=</span> <span class="n">padded_size</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  
+  <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">padded_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+  <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span>
+  <span class="n">out</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):]</span> <span class="o">=</span> <span class="n">padding</span>
+  
+  <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="crypto_pkcs7unpad"><a class="viewcode-back" href="../crypto.html#crypto.crypto_pkcs7unpad">[docs]</a><span class="k">def</span> <span class="nf">crypto_pkcs7unpad</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Performs unpadding of a PKCS7 (RFC2315) padded input array according to AES standard </span>
+<span class="sd">  chunk size (16 bytes).</span>
+
+<span class="sd">  :param data: _description_</span>
+<span class="sd">  :type data: _type_</span>
+<span class="sd">  :param data_size: _description_</span>
+<span class="sd">  :type data_size: _type_</span>
+<span class="sd">  :return: _description_</span>
+<span class="sd">  :rtype: _type_</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="n">unpadded_size</span> <span class="o">=</span> <span class="n">crypto_pkcs7CalculateUnpaddedSize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="n">padding</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="n">unpadded_size</span> 
+  <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">((</span><span class="n">unpadded_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span> 
+
+  <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">unpadded_size</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)]</span> <span class="o">!=</span> <span class="n">padding</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">0</span>
+  <span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">unpadded_size</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">unpadded_size</span><span class="p">]</span>
+  
+  <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="crypto_aesEncrypt"><a class="viewcode-back" href="../crypto.html#crypto.crypto_aesEncrypt">[docs]</a><span class="k">def</span> <span class="nf">crypto_aesEncrypt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key_size</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Encrypts data using key with certain key size (128, 192 or 256 bits) </span>
+<span class="sd">  applying AES algorithm.</span>
+
+<span class="sd">  :param data: input data (already padded data)</span>
+<span class="sd">  :type data: Numpy array of uint8</span>
+<span class="sd">  :param key: AES key </span>
+<span class="sd">  :type key: Numpy array of uint8</span>
+<span class="sd">  :param key_size: size of AES key (128, 192 or 256 bits)</span>
+<span class="sd">  :type key_size: int</span>
+<span class="sd">  :return: encrypted data</span>
+<span class="sd">  :rtype: Numpy array of uint8</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># encrypted data size (already padded)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="n">data_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+
+  <span class="c1"># decrypted data size == encrypted data size</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+  <span class="n">out_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">out</span><span class="p">)</span>
+
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+  <span class="n">key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">key</span><span class="p">)</span>
+
+  <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_aesEncrypt</span><span class="p">(</span><span class="n">data_c</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span> <span class="n">key_c</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">out_c</span><span class="p">)</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">out_c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="crypto_aesDecrypt"><a class="viewcode-back" href="../crypto.html#crypto.crypto_aesDecrypt">[docs]</a><span class="k">def</span> <span class="nf">crypto_aesDecrypt</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">key_size</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Decrypts data using key with certain key size (128, 192 or 256 bits) </span>
+<span class="sd">  applying AES algorithm.</span>
+
+<span class="sd">  :param encrypted_data: cipher data array (padded data size)</span>
+<span class="sd">  :type encrypted_data: Numpy array of uint8</span>
+<span class="sd">  :param key: AES key</span>
+<span class="sd">  :type key: Numpy array of uint8</span>
+<span class="sd">  :param key_size: size of AES key (128, 192 or 256 bits)</span>
+<span class="sd">  :type key_size: int</span>
+<span class="sd">  :return: decrypted data (same length of input encrypted data)</span>
+<span class="sd">  :rtype: Numpy array of uint8</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+  <span class="n">encrypted_data_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">encrypted_data</span><span class="p">)</span>
+
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+  <span class="n">key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">key</span><span class="p">)</span>
+
+  <span class="c1"># output size with padding</span>
+  <span class="n">output_size</span> <span class="o">=</span> <span class="n">crypto_pkcs7CalculateUnpaddedSize</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">output_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)</span>
+  <span class="n">out_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">out</span><span class="p">)</span>
+
+  <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_aesDecrypt</span><span class="p">(</span><span class="n">encrypted_data_c</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">encrypted_data</span><span class="p">)),</span> <span class="n">key_c</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">out_c</span><span class="p">)</span>
+  <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">out_c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="crypto_generateKeyPair"><a class="viewcode-back" href="../crypto.html#crypto.crypto_generateKeyPair">[docs]</a><span class="k">def</span> <span class="nf">crypto_generateKeyPair</span><span class="p">(</span><span class="n">private_key</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Generates ECDH public key starting from random private key (local secret).</span>
+<span class="sd">  The public key can be sent to the remote host to generate the shared secret.</span>
+<span class="sd">  It uses NIST K-163 elliptic curve.</span>
+
+<span class="sd">  :param private_key_8: input private key (call method crypto_privateKeySize for getting the length, i.e. 24 bytes)</span>
+<span class="sd">  :type private_key_8: Numpy array of uint8</span>
+<span class="sd">  :return: ECDH public key (call method crypto_publicKeySize for getting the length, i.e. 48 bytes)</span>
+<span class="sd">  :rtype: Numpy array of uint8</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c1"># private key (input data)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span>
+  <span class="n">private_key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">private_key</span><span class="p">)</span>
+
+  <span class="c1"># public key (output data)</span>
+  <span class="n">public_key</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">private_key</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">public_key</span><span class="p">)</span>
+  <span class="n">public_key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">public_key</span><span class="p">)</span>
+
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_generateKeyPair</span><span class="p">(</span><span class="n">public_key_c</span><span class="p">,</span> <span class="n">private_key_c</span><span class="p">)</span>
+  <span class="n">public_key</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">public_key_c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">public_key</span></div>
+  
+<span class="c1">#size_t crypto_sign(uint8_t* my_private_key, uint8_t* cloud_public_key, uint8_t* data, size_t data_size, uint8_t* out);</span>
+<div class="viewcode-block" id="crypto_sign"><a class="viewcode-back" href="../crypto.html#crypto.crypto_sign">[docs]</a><span class="k">def</span> <span class="nf">crypto_sign</span><span class="p">(</span><span class="n">local_private_key</span><span class="p">,</span> <span class="n">remote_public_key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Computes the digital signature of input data using ECDH algorithm. </span>
+<span class="sd">  The private key is integer value chosen by the local user to multiply the generator point of ECC.</span>
+<span class="sd">  The public key is the point generate by the remote user multipling the generator point of ECC by </span>
+<span class="sd">  its secret integer value.</span>
+<span class="sd">  The signature is computed applying AES encryption to the input data with the ashared key computed</span>
+<span class="sd">  multiplying the private and public key in ECC domain using ECDH Diffie - Hellman algoritm.</span>
+
+<span class="sd">  :param local_private_key: local private key as Numpy array of 24 unsigned integer values</span>
+<span class="sd">  :type local_private_key: Numpy array of uint8</span>
+<span class="sd">  :param remote_public_key: remote public key as Numpy array of 48 unsigned integer values</span>
+<span class="sd">  :type remote_public_key: Numpy array of uint8</span>
+<span class="sd">  :param data: input data to be signed </span>
+<span class="sd">  :type data: Numpy array of uint8</span>
+<span class="sd">  :return: digital signature (padded input data size)</span>
+<span class="sd">  :rtype: Numpy array of uint8</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># local private key (input data)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_private_key</span><span class="p">)</span>
+  <span class="n">local_private_key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">local_private_key</span><span class="p">)</span>
+
+  <span class="c1"># remote public key (input data)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">remote_public_key</span><span class="p">)</span>
+  <span class="n">remote_public_key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">remote_public_key</span><span class="p">)</span>
+
+  <span class="c1"># input data to be signed (encrypted with computed shared key)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+  <span class="n">data_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">)</span>
+
+  <span class="c1"># output encrypted data (signature)</span>
+  <span class="n">output_size</span> <span class="o">=</span> <span class="n">crypto_pkcs7CalculatePaddedSize</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+  <span class="n">signature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">output_size</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="n">output_size</span>
+  <span class="n">signature_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">signature</span><span class="p">)</span>
+
+  <span class="c1"># call C library function</span>
+  <span class="n">ret</span> <span class="o">=</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_sign</span><span class="p">(</span><span class="n">local_private_key_c</span><span class="p">,</span> <span class="n">remote_public_key_c</span><span class="p">,</span> <span class="n">data_c</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)),</span> <span class="n">signature_c</span><span class="p">)</span>
+
+  <span class="n">signature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">signature_c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">signature</span></div>
+
+<div class="viewcode-block" id="crypto_unsign"><a class="viewcode-back" href="../crypto.html#crypto.crypto_unsign">[docs]</a><span class="k">def</span> <span class="nf">crypto_unsign</span><span class="p">(</span><span class="n">local_private_key</span><span class="p">,</span> <span class="n">remote_public_key</span><span class="p">,</span> <span class="n">signature</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Verifies the digital signature of input data using ECDH algorithm. </span>
+<span class="sd">  The private key is integer value chosen by the local user to multiply the generator point of ECC.</span>
+<span class="sd">  The public key is the point generate by the remote user multipling the generator point of ECC by </span>
+<span class="sd">  its secret integer value.</span>
+<span class="sd">  The signature is computed applying AES encryption to the input data with the ashared key computed</span>
+<span class="sd">  multiplying the private and public key in ECC domain using ECDH Diffie - Hellman algoritm.</span>
+
+<span class="sd">  :param local_private_key: local private key as Numpy array of 24 unsigned integer values</span>
+<span class="sd">  :type local_private_key: Numpy array of uint8</span>
+<span class="sd">  :param remote_public_key: remote public key as Numpy array of 48 unsigned integer values</span>
+<span class="sd">  :type remote_public_key: Numpy array of uint8</span>
+<span class="sd">  :param signature: signature to be verified (padded size)</span>
+<span class="sd">  :type signature: Numpy array of uint8</span>
+<span class="sd">  :return: decrypted data to be verified</span>
+<span class="sd">  :rtype: Numpy array of uint8</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="c1"># local private key (input data)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_private_key</span><span class="p">)</span>
+  <span class="n">local_private_key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">local_private_key</span><span class="p">)</span>
+
+  <span class="c1"># remote public key (input data)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">remote_public_key</span><span class="p">)</span>
+  <span class="n">remote_public_key_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">remote_public_key</span><span class="p">)</span>
+
+  <span class="c1"># input signature (previously encrypted with computed shared key)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+  <span class="n">signature_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">signature</span><span class="p">)</span>
+
+  <span class="c1"># output decrypted signature  </span>
+  <span class="n">decrypted_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+  <span class="n">UIntegerArray</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_uint8</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+  <span class="n">decrypted_data_c</span> <span class="o">=</span> <span class="n">UIntegerArray</span><span class="p">(</span><span class="o">*</span><span class="n">decrypted_data</span><span class="p">)</span>
+
+  <span class="c1"># call C library function</span>
+  <span class="n">unpadded_size</span> <span class="o">=</span> <span class="n">crypto_lib</span><span class="o">.</span><span class="n">crypto_unsign</span><span class="p">(</span><span class="n">local_private_key_c</span><span class="p">,</span> <span class="n">remote_public_key_c</span><span class="p">,</span> <span class="n">signature_c</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signature</span><span class="p">)),</span> <span class="n">decrypted_data_c</span><span class="p">)</span>
+  <span class="n">decrypted_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">decrypted_data_c</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+  <span class="n">decrypted_data</span> <span class="o">=</span> <span class="n">decrypted_data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">unpadded_size</span><span class="p">]</span>
+
+  <span class="k">return</span> <span class="n">decrypted_data</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Applica S.R.L..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
