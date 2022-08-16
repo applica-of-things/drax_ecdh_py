@@ -1,0 +1,12 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+src/draxecdh/__init__.py
+src/draxecdh/crypto.py
+src/draxecdh/crypto_tests.py
+src/draxecdh/libcrypto.so
+src/draxecdh.egg-info/PKG-INFO
+src/draxecdh.egg-info/SOURCES.txt
+src/draxecdh.egg-info/dependency_links.txt
+src/draxecdh.egg-info/top_level.txt

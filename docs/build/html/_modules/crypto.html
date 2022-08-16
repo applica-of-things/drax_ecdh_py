@@ -70,7 +70,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="c1"># load .so Unix crypto C-library</span>
-<span class="n">libname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;libs/unix/libcrypto.so&quot;</span>
+<span class="n">libname</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&quot;libcrypto.so&quot;</span>
 <span class="n">crypto_lib</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
 
 <div class="viewcode-block" id="crypto_privateKeySize"><a class="viewcode-back" href="../crypto.html#crypto.crypto_privateKeySize">[docs]</a><span class="k">def</span> <span class="nf">crypto_privateKeySize</span><span class="p">():</span>

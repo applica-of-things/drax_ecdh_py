@@ -1,9 +1,7 @@
 import unittest
 import numpy as np
-#import hashlib
 
 import crypto
-
 
 class TestCaseCrypto(unittest.TestCase):
 
