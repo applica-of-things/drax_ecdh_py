@@ -4,7 +4,7 @@ Python wrapper for Drax ECDH C-library
 ### Installation 
 To install the package you need to run the following command:
 
-`$ pip install draxecdh`
+`$ python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps draxecdh`
 
 ### Usage 
 Import ECDH crypto module in your code:
